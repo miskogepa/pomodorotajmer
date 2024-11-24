@@ -1,5 +1,5 @@
 // Timer and mode variables
-let timer;
+let intervalId; // Replace timer with intervalId
 let isRunning = false;
 let pomodoroDuration = 25 * 60;
 let shortBreakDuration = 5 * 60;
@@ -49,32 +49,30 @@ function updateDisplay(duration) {
 // Function to start or pause the timer
 function startTimer() {
   if (isRunning) {
-    cancelAnimationFrame(timer);
+    clearInterval(intervalId);
     startBtn.textContent = 'Start';
   } else {
-    lastTimestamp = performance.now();
-    timer = requestAnimationFrame(updateTimer);
+    lastTimestamp = Date.now();
+    intervalId = setInterval(updateTimer, 1000);
     startBtn.textContent = 'Pause';
   }
   isRunning = !isRunning;
 }
 
 // Function to update the timer
-function updateTimer(timestamp) {
-  if (!lastTimestamp) lastTimestamp = timestamp;
-  const elapsed = timestamp - lastTimestamp;
-  if (elapsed >= 1000) {
-    currentDuration--;
+function updateTimer() {
+  const now = Date.now();
+  const elapsed = Math.floor((now - lastTimestamp) / 1000);
+  if (elapsed >= 1) {
+    currentDuration -= elapsed;
     updateDisplay(currentDuration);
-    lastTimestamp = timestamp;
+    lastTimestamp = now;
   }
   if (currentDuration <= 0) {
-    cancelAnimationFrame(timer);
+    clearInterval(intervalId);
     isRunning = false;
     startBtn.textContent = 'Start';
     handleTimerEnd();
-  } else {
-    timer = requestAnimationFrame(updateTimer);
   }
 }
 
@@ -150,7 +148,7 @@ function updateActiveModeButton() {
 // Event listeners for buttons
 startBtn.addEventListener('click', startTimer);
 resetBtn.addEventListener('click', () => {
-  clearInterval(timer);
+  clearInterval(intervalId);
   isRunning = false;
   startBtn.textContent = 'Start';
   if (currentMode === 'pomodoro') {
@@ -165,7 +163,7 @@ resetBtn.addEventListener('click', () => {
 });
 
 pomodoroBtn.addEventListener('click', () => {
-  cancelAnimationFrame(timer); // Stop the timer
+  clearInterval(intervalId); // Stop the timer
   isRunning = false;
   startBtn.textContent = 'Start';
   currentMode = 'pomodoro';
@@ -174,7 +172,7 @@ pomodoroBtn.addEventListener('click', () => {
   updateLongBreakIntervalCounter();
 });
 shortBreakBtn.addEventListener('click', () => {
-  cancelAnimationFrame(timer); // Stop the timer
+  clearInterval(intervalId); // Stop the timer
   isRunning = false;
   startBtn.textContent = 'Start';
   currentMode = 'shortBreak';
@@ -183,7 +181,7 @@ shortBreakBtn.addEventListener('click', () => {
   updateLongBreakIntervalCounter();
 });
 longBreakBtn.addEventListener('click', () => {
-  cancelAnimationFrame(timer); // Stop the timer
+  clearInterval(intervalId); // Stop the timer
   isRunning = false;
   startBtn.textContent = 'Start';
   currentMode = 'longBreak';
