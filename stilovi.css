@@ -115,12 +115,13 @@ input{
     background-clip: text;
     background-clip: text;
     background-clip: text;
+    background-clip: text;
 }
 
 .seconds{
     background: -webkit-linear-gradient(90deg, #24ff6d, #2f93f1);
     -webkit-text-fill-color: transparent;
-    -webkit-background-clip: text;
+    background-clip: text;
     
 }
 
