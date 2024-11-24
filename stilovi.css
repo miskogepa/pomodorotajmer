@@ -16,9 +16,8 @@ body{
     background: #2e2e44;
     width: 100vw; /* Ensure the body takes the full width of the viewport */
     overflow-x: hidden; /* Prevent horizontal scrolling */
-   
-   
-   
+    transform: scale(1.2); /* Scale up the entire body */
+    transform-origin: top left; /* Ensure scaling starts from the top left */
 }
 
 .timer-app{
@@ -36,6 +35,7 @@ body{
     flex-direction: column;
     margin-top: 70px; /* Adjust this value to control the distance from the top */
     margin-bottom: 70px; /* Adjust this value to control the distance from the bottom */
+    max-width: 90vw; /* Ensure the timer app fits within the viewport */
 }
 
 .timer-app:before{
